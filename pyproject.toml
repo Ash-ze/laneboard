@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "laneboard"
+version = "0.1.0"
+description = "Read-only, cross-machine, cross-tool status board for your AI coding agents."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "laneboard contributors" }]
+requires-python = ">=3.11"
+dependencies = []
+keywords = ["ai-agents", "dashboard", "codex", "claude-code", "aider", "status", "ssh"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Environment :: Web Environment",
+  "Intended Audience :: Developers",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development",
+  "Topic :: System :: Monitoring",
+]
+
+[project.optional-dependencies]
+yaml = ["pyyaml>=6"]
+dev = ["pytest>=7", "pyyaml>=6"]
+
+[project.scripts]
+laneboard = "laneboard.cli:main"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "examples", "README.md", "LICENSE", "CONTRIBUTING.md", "DEPLOY.md"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/laneboard"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

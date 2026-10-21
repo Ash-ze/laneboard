@@ -1,0 +1,54 @@
+# laneboard configuration. Every source is read-only.
+# Docs: see README "Configuration".
+
+[board]
+title = "My agents"
+stale_hours = 6          # lanes with no update for longer than this are "stale"
+refresh_seconds = 30     # web page auto-refresh interval
+# host = "127.0.0.1"     # `serve` bind address (keep it on loopback)
+# port = 8765
+
+# 1. Status files in a local directory: one Markdown file = one lane.
+[[source]]
+type = "local"
+name = "laptop"
+path = "~/projects/lanes"
+pattern = "*.md"
+
+# 2. Status files on another machine, read with *your* ssh and ~/.ssh/config.
+#    `host` is an alias from ~/.ssh/config; globs are allowed in the file name.
+# [[source]]
+# type = "ssh"
+# host = "gpu-box"
+# paths = ["~/work/lanes/*.md"]
+# timeout = 10
+# stale_hours = 12        # per-source override
+
+# 3. Git repositories: branch, uncommitted changes, last commit time.
+#    The repo directory name is the lane name, so it merges with a status
+#    file of the same name.
+# [[source]]
+# type = "git"
+# paths = ["~/projects/frontend-refactor", { path = "~/projects/exp", lane = "paper-experiments" }]
+
+# 4. EXPERIMENTAL: agent session logs (last activity + last message).
+# [[source]]
+# type = "claude-code"     # reads ~/.claude/projects/*/*.jsonl
+# max_age_days = 3
+# [[source]]
+# type = "codex"           # reads ~/.codex/sessions/**/rollout-*.jsonl
+# [[source]]
+# type = "aider"           # reads <repo>/.aider.chat.history.md
+# paths = ["~/projects/frontend-refactor"]
+
+# Push alerts when a lane *becomes* blocked or stale.
+# [[notify]]
+# type = "ntfy"
+# url = "https://ntfy.sh/<a-long-random-topic-name>"   # or url_env = "LANEBOARD_NTFY_URL"
+# on = ["blocked", "stale"]
+# [[notify]]
+# type = "webhook"
+# url = "https://example.invalid/hooks/laneboard"
+# # Secrets stay out of the file: name environment variables instead.
+# # url_env = "LANEBOARD_WEBHOOK_URL"
+# headers_env = { Authorization = "LANEBOARD_WEBHOOK_AUTH" }
